@@ -88,3 +88,11 @@ class AuthManager {
 
 // Initialize auth manager globally
 const authManager = new AuthManager();
+
+// Update UI when page loads
+if (typeof window !== 'undefined') {
+  window.authManager = authManager;
+  window.addEventListener('load', () => {
+    authManager.updateUI();
+  });
+}
