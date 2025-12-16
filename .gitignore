@@ -5,3 +5,8 @@ node_modules/
 *.log
 .DS_Store
 data/uploads/
+
+# Ignore files without extensions in api folder (prevent conflicts with .js files)
+api/photos
+api/schedule
+api/stats
