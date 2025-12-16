@@ -173,6 +173,11 @@ class ShCardGrid extends HTMLElement {
     // Handle different data structures
     if (type === 'stats' && data.summary) {
       items = data.summary.slice(0, 9);
+    } else if (type === 'game' && data.games) {
+      // For schedule.json, get upcoming games
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      items = data.games.filter(game => new Date(game.date) >= today).slice(0, 9);
     } else if (Array.isArray(data)) {
       items = data.slice(0, 9);
     } else {
@@ -192,11 +197,12 @@ class ShCardGrid extends HTMLElement {
               </div>
             `;
           } else if (type === 'game') {
+            const gameDate = new Date(item.date);
+            const formattedDate = gameDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
             return `
               <div class="grid-card game-card">
-                <div class="card-date">${item.date}</div>
-                <div class="card-teams">${item.homeTeam} vs ${item.awayTeam}</div>
-                <div class="card-location">${item.location}</div>
+                <div class="card-date">${formattedDate}</div>
+                <div class="card-teams">${item.home} vs ${item.away}</div>
                 <div class="card-time">${item.time}</div>
               </div>
             `;

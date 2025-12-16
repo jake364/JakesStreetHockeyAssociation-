@@ -1,0 +1,17 @@
+{
+  "name": "jakes-street-hockey-association",
+  "version": "1.0.0",
+  "description": "Modern web app for Jake's Street Hockey Association",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site ready'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["street-hockey", "sports", "web-components"],
+  "author": "Jake",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}

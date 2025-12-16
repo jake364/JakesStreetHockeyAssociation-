@@ -1,0 +1,38 @@
+export default function handler(req, res) {
+  const schedule = [
+    {
+      id: 1,
+      date: 'Nov 20, 2025',
+      time: '7:00 PM',
+      homeTeam: 'Red Rockets',
+      awayTeam: 'Blue Lightning',
+      location: 'Main Street Arena'
+    },
+    {
+      id: 2,
+      date: 'Nov 24, 2025',
+      time: '6:30 PM',
+      homeTeam: 'Green Machines',
+      awayTeam: 'Red Rockets',
+      location: 'Oak Park Court'
+    },
+    {
+      id: 3,
+      date: 'Nov 27, 2025',
+      time: '8:00 PM',
+      homeTeam: 'Blue Lightning',
+      awayTeam: 'Black Hawks',
+      location: 'Downtown Plaza'
+    },
+    {
+      id: 4,
+      date: 'Dec 1, 2025',
+      time: '7:30 PM',
+      homeTeam: 'Black Hawks',
+      awayTeam: 'Green Machines',
+      location: 'Main Street Arena'
+    }
+  ];
+
+  res.status(200).json(schedule);
+}

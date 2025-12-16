@@ -1,0 +1,21 @@
+{
+  "summary": [
+    { "label": "Wins", "value": 12 },
+    { "label": "Losses", "value": 5 },
+    { "label": "Goals", "value": 87 },
+    { "label": "Assists", "value": 65 },
+    { "label": "Games", "value": 17 },
+    { "label": "Players", "value": 50 },
+    { "label": "Teams", "value": 12 },
+    { "label": "Championships", "value": 3 },
+    { "label": "Win %", "value": "71%" }
+  ],
+  "players": [
+    { "id": 1, "name": "Jake Martinez", "games": 17, "goals": 23, "assists": 18, "points": 41 },
+    { "id": 2, "name": "Sarah Johnson", "games": 16, "goals": 19, "assists": 22, "points": 41 },
+    { "id": 3, "name": "Mike Chen", "games": 17, "goals": 15, "assists": 12, "points": 27 },
+    { "id": 4, "name": "Emily Davis", "games": 15, "goals": 12, "assists": 8, "points": 20 },
+    { "id": 5, "name": "Chris Wilson", "games": 14, "goals": 10, "assists": 3, "points": 13 },
+    { "id": 6, "name": "Alex Thompson", "games": 12, "goals": 8, "assists": 2, "points": 10 }
+  ]
+}

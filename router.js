@@ -904,7 +904,9 @@ class Router {
       Object.entries(this.scheduleData.practiceSlots).forEach(([day, slots]) => {
         slots.forEach(slot => {
           if (slot.team === team.name) {
-            practiceSlots.push({ day, time: slot.time });
+            // Capitalize the day name
+            const dayName = day.charAt(0).toUpperCase() + day.slice(1);
+            practiceSlots.push({ day: dayName, time: slot.time });
           }
         });
       });
