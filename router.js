@@ -601,7 +601,7 @@ class Router {
             <strong style="color:#28a745;">Goal #${goalId + 1}</strong>
             <button onclick="document.getElementById('goal-${goalId}').remove()" style="background:#dc3545;color:white;border:none;border-radius:4px;padding:0.5rem 1rem;cursor:pointer;">Remove</button>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:0.75rem;">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:0.75rem;">
             <div>
               <label style="display:block;margin-bottom:0.25rem;font-size:0.9rem;font-weight:600;">Scoring Team</label>
               <select id="goal-${goalId}-team" style="width:100%;padding:0.5rem;border:2px solid #ccc;border-radius:4px;">
@@ -617,8 +617,14 @@ class Router {
               </select>
             </div>
             <div>
-              <label style="display:block;margin-bottom:0.25rem;font-size:0.9rem;font-weight:600;">Assist (Optional)</label>
-              <select id="goal-${goalId}-assist" style="width:100%;padding:0.5rem;border:2px solid #ccc;border-radius:4px;">
+              <label style="display:block;margin-bottom:0.25rem;font-size:0.9rem;font-weight:600;">Assist 1 (Optional)</label>
+              <select id="goal-${goalId}-assist1" style="width:100%;padding:0.5rem;border:2px solid #ccc;border-radius:4px;">
+                <option value="">None</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;margin-bottom:0.25rem;font-size:0.9rem;font-weight:600;">Assist 2 (Optional)</label>
+              <select id="goal-${goalId}-assist2" style="width:100%;padding:0.5rem;border:2px solid #ccc;border-radius:4px;">
                 <option value="">None</option>
               </select>
             </div>
@@ -641,7 +647,8 @@ class Router {
         // Setup team change handler
         const teamSelect = document.getElementById(`goal-${goalId}-team`);
         const scorerSelect = document.getElementById(`goal-${goalId}-scorer`);
-        const assistSelect = document.getElementById(`goal-${goalId}-assist`);
+        const assist1Select = document.getElementById(`goal-${goalId}-assist1`);
+        const assist2Select = document.getElementById(`goal-${goalId}-assist2`);
         
         teamSelect.addEventListener('change', async () => {
           const selectedTeam = teamSelect.value;
@@ -652,37 +659,39 @@ class Router {
           
           if (team) {
             scorerSelect.innerHTML = '<option value="">Select...</option>';
-            assistSelect.innerHTML = '<option value="">None</option>';
+            assist1Select.innerHTML = '<option value="">None</option>';
+            assist2Select.innerHTML = '<option value="">None</option>';
             
             team.players.forEach((player, idx) => {
               scorerSelect.innerHTML += `<option value="${idx}">${player.name}</option>`;
-              assistSelect.innerHTML += `<option value="${idx}">${player.name}</option>`;
+              assist1Select.innerHTML += `<option value="${idx}">${player.name}</option>`;
+              assist2Select.innerHTML += `<option value="${idx}">${player.name}</option>`;
             });
           }
         });
         
-        // Prevent selecting same player for scorer and assist
-        scorerSelect.addEventListener('change', () => {
+        // Prevent selecting same player for scorer and assists
+        const updateAssistOptions = () => {
           const scorerIdx = scorerSelect.value;
-          Array.from(assistSelect.options).forEach(option => {
-            if (option.value === scorerIdx && scorerIdx !== '') {
-              option.disabled = true;
-            } else {
-              option.disabled = false;
-            }
+          const assist1Idx = assist1Select.value;
+          const assist2Idx = assist2Select.value;
+          
+          Array.from(assist1Select.options).forEach(option => {
+            option.disabled = (option.value === scorerIdx && scorerIdx !== '') || (option.value === assist2Idx && assist2Idx !== '');
           });
-        });
-        
-        assistSelect.addEventListener('change', () => {
-          const assistIdx = assistSelect.value;
+          
+          Array.from(assist2Select.options).forEach(option => {
+            option.disabled = (option.value === scorerIdx && scorerIdx !== '') || (option.value === assist1Idx && assist1Idx !== '');
+          });
+          
           Array.from(scorerSelect.options).forEach(option => {
-            if (option.value === assistIdx && assistIdx !== '') {
-              option.disabled = true;
-            } else {
-              option.disabled = false;
-            }
+            option.disabled = (option.value === assist1Idx && assist1Idx !== '') || (option.value === assist2Idx && assist2Idx !== '');
           });
-        });
+        };
+        
+        scorerSelect.addEventListener('change', updateAssistOptions);
+        assist1Select.addEventListener('change', updateAssistOptions);
+        assist2Select.addEventListener('change', updateAssistOptions);
       });
     }
     
