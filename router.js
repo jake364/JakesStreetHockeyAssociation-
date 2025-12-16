@@ -154,64 +154,94 @@ class Router {
                             'July', 'August', 'September', 'October', 'November', 'December'];
         document.getElementById('currentMonth').textContent = `${monthNames[this.currentMonth]} ${this.currentYear}`;
         
-        // Build games object from schedule data for this month
-        const games = {};
+        // Build schedule from games and practices
+        const schedule = {};
+        const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+        
+        // Add games from schedule data
         if (this.scheduleData && this.scheduleData.games) {
           this.scheduleData.games.forEach(game => {
             const gameDate = new Date(game.date);
             if (gameDate.getMonth() === this.currentMonth && gameDate.getFullYear() === this.currentYear) {
               const dateStr = game.date;
-              if (!games[dateStr]) games[dateStr] = [];
-              games[dateStr].push(game);
+              if (!schedule[dateStr]) schedule[dateStr] = [];
+              schedule[dateStr].push({
+                type: 'game',
+                opponent: `${game.home} vs ${game.away}`,
+                time: game.time
+              });
             }
           });
         }
         
-        const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-        const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+        // Add practices from practice slots (only on weekdays without games)
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(this.currentYear, this.currentMonth, day);
+          const dayOfWeek = date.getDay();
+          const dateStr = `${this.currentYear}-${String(this.currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const dayName = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][dayOfWeek];
+          
+          // Only add practice if it's a weekday (Mon-Fri) and no game scheduled
+          if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+            const hasGame = schedule[dateStr] && schedule[dateStr].some(e => e.type === 'game');
+            if (!hasGame && this.scheduleData.practiceSlots && this.scheduleData.practiceSlots[dayName]) {
+              this.scheduleData.practiceSlots[dayName].forEach(slot => {
+                if (!schedule[dateStr]) schedule[dateStr] = [];
+                schedule[dateStr].push({ 
+                  type: 'practice',
+                  team: slot.team,
+                  time: slot.time
+                });
+              });
+            }
+          }
+        }
         
-        let html = '<table style=\"width:100%;border-collapse:collapse;\">';
-        html += '<thead><tr style=\"background:#CC0000;color:white;\">';
-        html += '<th style=\"padding:0.75rem;\">Sun</th><th style=\"padding:0.75rem;\">Mon</th><th style=\"padding:0.75rem;\">Tue</th><th style=\"padding:0.75rem;\">Wed</th><th style=\"padding:0.75rem;\">Thu</th><th style=\"padding:0.75rem;\">Fri</th><th style=\"padding:0.75rem;\">Sat</th>';
+        // Calendar starts on Saturday (day 6)
+        const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+        const adjustedFirstDay = (firstDay + 1) % 7; // Shift so Saturday is 0
+        
+        let html = '<table style="width:100%;border-collapse:collapse;">';
+        html += '<thead><tr style="background:#CC0000;color:white;">';
+        html += '<th style="padding:0.75rem;">Sat</th><th style="padding:0.75rem;">Sun</th><th style="padding:0.75rem;">Mon</th><th style="padding:0.75rem;">Tue</th><th style="padding:0.75rem;">Wed</th><th style="padding:0.75rem;">Thu</th><th style="padding:0.75rem;">Fri</th>';
         html += '</tr></thead><tbody><tr>';
         
         // Empty cells before first day
-        for (let i = 0; i < firstDay; i++) {
-          html += '<td style=\"padding:0.75rem;border:1px solid #ddd;background:#f9f9f9;\"></td>';
+        for (let i = 0; i < adjustedFirstDay; i++) {
+          html += '<td style="padding:0.75rem;border:1px solid #ddd;background:#f9f9f9;height:100px;"></td>';
         }
         
         // Days of month
         for (let day = 1; day <= daysInMonth; day++) {
-          if ((firstDay + day - 1) % 7 === 0 && day > 1) {
+          if ((adjustedFirstDay + day - 1) % 7 === 0 && day > 1) {
             html += '</tr><tr>';
           }
           
           const dateStr = `${this.currentYear}-${String(this.currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          const dayGames = games[dateStr];
+          const events = schedule[dateStr] || [];
           
-          // Format events for popup (convert games to event objects)
-          const events = dayGames ? dayGames.map(game => ({
-            type: 'game',
-            opponent: `${game.home} vs ${game.away}`,
-            time: game.time
-          })) : [];
-          
-          html += `<td data-date="${dateStr}" style=\"padding:0.75rem;border:1px solid #ddd;vertical-align:top;height:80px;${dayGames ? 'background:#ffe6e6;cursor:pointer;' : 'cursor:pointer;'}transition:background 0.2s;\" onmouseover=\"this.style.background='${dayGames ? '#ffd4d4' : '#f5f5f5'}'\" onmouseout=\"this.style.background='${dayGames ? '#ffe6e6' : 'white'}'\" onclick=\"window.appRouter.showDatePopup('${dateStr}', ${JSON.stringify(events).replace(/"/g, '&quot;')})\">`;
+          html += `<td data-date="${dateStr}" style="padding:0.75rem;border:1px solid #ddd;vertical-align:top;height:100px;${events.length > 0 ? 'background:#ffe6e6;cursor:pointer;' : 'cursor:pointer;'}transition:background 0.2s;" onmouseover="this.style.background='${events.length > 0 ? '#ffd4d4' : '#f5f5f5'}'" onmouseout="this.style.background='${events.length > 0 ? '#ffe6e6' : 'white'}'" onclick="window.appRouter.showDatePopup('${dateStr}', ${JSON.stringify(events).replace(/"/g, '&quot;')})">`;
           html += `<strong>${day}</strong>`;
-          if (dayGames) {
-            dayGames.forEach(game => {
-              html += `<div style=\"font-size:0.75rem;margin-top:0.25rem;color:#CC0000;font-weight:600;\">${game.home} vs ${game.away}</div>`;
-              html += `<div style=\"font-size:0.7rem;color:#666;\">${game.time}</div>`;
+          if (events.length > 0) {
+            events.forEach(event => {
+              if (event.type === 'game') {
+                html += `<div style="font-size:0.75rem;margin-top:0.25rem;color:#CC0000;font-weight:600;">GAME</div>`;
+                html += `<div style="font-size:0.7rem;color:#000;">${event.opponent}</div>`;
+                html += `<div style="font-size:0.7rem;color:#666;">${event.time}</div>`;
+              } else {
+                html += `<div style="font-size:0.7rem;margin-top:0.25rem;color:#666;">${event.team}</div>`;
+                html += `<div style="font-size:0.65rem;color:#999;">Practice ${event.time}</div>`;
+              }
             });
           }
           html += '</td>';
         }
         
         // Fill remaining cells
-        const totalCells = firstDay + daysInMonth;
+        const totalCells = adjustedFirstDay + daysInMonth;
         const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
         for (let i = 0; i < remainingCells; i++) {
-          html += '<td style=\"padding:0.75rem;border:1px solid #ddd;background:#f9f9f9;\"></td>';
+          html += '<td style="padding:0.75rem;border:1px solid #ddd;background:#f9f9f9;height:100px;"></td>';
         }
         
         html += '</tr></tbody></table>';
@@ -1227,20 +1257,21 @@ class Router {
         }
         
         const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const adjustedFirstDay = (firstDay + 1) % 7; // Shift so Saturday is 0
         
         let html = '<table style="width:100%;border-collapse:collapse;">';
         html += '<thead><tr style="background:#CC0000;color:white;">';
-        html += '<th style="padding:0.75rem;">Sun</th><th style="padding:0.75rem;">Mon</th><th style="padding:0.75rem;">Tue</th><th style="padding:0.75rem;">Wed</th><th style="padding:0.75rem;">Thu</th><th style="padding:0.75rem;">Fri</th><th style="padding:0.75rem;">Sat</th>';
+        html += '<th style="padding:0.75rem;">Sat</th><th style="padding:0.75rem;">Sun</th><th style="padding:0.75rem;">Mon</th><th style="padding:0.75rem;">Tue</th><th style="padding:0.75rem;">Wed</th><th style="padding:0.75rem;">Thu</th><th style="padding:0.75rem;">Fri</th>';
         html += '</tr></thead><tbody><tr>';
         
         // Empty cells before first day
-        for (let i = 0; i < firstDay; i++) {
+        for (let i = 0; i < adjustedFirstDay; i++) {
         html += '<td style="padding:0.75rem;border:1px solid #ddd;background:#f9f9f9;height:100px;"></td>';
       }
       
       // Days of month
       for (let day = 1; day <= daysInMonth; day++) {
-        if ((firstDay + day - 1) % 7 === 0 && day > 1) {
+        if ((adjustedFirstDay + day - 1) % 7 === 0 && day > 1) {
           html += '</tr><tr>';
         }
         
@@ -1265,7 +1296,7 @@ class Router {
       }
       
       // Fill remaining cells
-      const totalCells = firstDay + daysInMonth;
+      const totalCells = adjustedFirstDay + daysInMonth;
       const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
       for (let i = 0; i < remainingCells; i++) {
         html += '<td style="padding:0.75rem;border:1px solid #ddd;background:#f9f9f9;height:100px;"></td>';
