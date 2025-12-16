@@ -197,10 +197,11 @@ class Router {
           }
         }
         
-        // Calendar starts on Saturday (day 6)
+        // Calendar starts on Saturday
+        // JavaScript day: Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6
+        // Calendar columns: Sat=0, Sun=1, Mon=2, Tue=3, Wed=4, Thu=5, Fri=6
         const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-        // Calculate offset: if 1st is Saturday (6), offset is 0; if Sunday (0), offset is 1, etc.
-        const adjustedFirstDay = firstDay === 6 ? 0 : firstDay + 1;
+        const adjustedFirstDay = (firstDay + 1) % 7;
         
         let html = '<table style="width:100%;border-collapse:collapse;">';
         html += '<thead><tr style="background:#CC0000;color:white;">';
@@ -548,6 +549,31 @@ class Router {
     // Load player data
     this.loadPlayersData();
     
+    // Prevent selecting same team for home and away
+    if (homeTeamSelect && awayTeamSelect) {
+      homeTeamSelect.addEventListener('change', () => {
+        const homeTeam = homeTeamSelect.value;
+        Array.from(awayTeamSelect.options).forEach(option => {
+          if (option.value === homeTeam) {
+            option.disabled = true;
+          } else {
+            option.disabled = false;
+          }
+        });
+      });
+      
+      awayTeamSelect.addEventListener('change', () => {
+        const awayTeam = awayTeamSelect.value;
+        Array.from(homeTeamSelect.options).forEach(option => {
+          if (option.value === awayTeam) {
+            option.disabled = true;
+          } else {
+            option.disabled = false;
+          }
+        });
+      });
+    }
+    
     // Add Goal button
     if (addGoalBtn) {
       addGoalBtn.addEventListener('click', async () => {
@@ -597,10 +623,14 @@ class Router {
               </select>
             </div>
           </div>
-          <div>
-            <label style="display:inline-flex;align-items:center;margin-right:1rem;cursor:pointer;">
+          <div style="display:flex;gap:1.5rem;">
+            <label style="display:inline-flex;align-items:center;cursor:pointer;">
               <input type="checkbox" id="goal-${goalId}-pp" style="margin-right:0.5rem;width:18px;height:18px;cursor:pointer;">
-              <span style="font-size:0.9rem;">Power Play (Still counts for goalie)</span>
+              <span style="font-size:0.9rem;">Power Play Goal</span>
+            </label>
+            <label style="display:inline-flex;align-items:center;cursor:pointer;">
+              <input type="checkbox" id="goal-${goalId}-en" style="margin-right:0.5rem;width:18px;height:18px;cursor:pointer;">
+              <span style="font-size:0.9rem;">Empty Net (Doesn't count for goalie)</span>
             </label>
           </div>
         `;
@@ -629,6 +659,29 @@ class Router {
               assistSelect.innerHTML += `<option value="${idx}">${player.name}</option>`;
             });
           }
+        });
+        
+        // Prevent selecting same player for scorer and assist
+        scorerSelect.addEventListener('change', () => {
+          const scorerIdx = scorerSelect.value;
+          Array.from(assistSelect.options).forEach(option => {
+            if (option.value === scorerIdx && scorerIdx !== '') {
+              option.disabled = true;
+            } else {
+              option.disabled = false;
+            }
+          });
+        });
+        
+        assistSelect.addEventListener('change', () => {
+          const assistIdx = assistSelect.value;
+          Array.from(scorerSelect.options).forEach(option => {
+            if (option.value === assistIdx && assistIdx !== '') {
+              option.disabled = true;
+            } else {
+              option.disabled = false;
+            }
+          });
         });
       });
     }
@@ -1258,8 +1311,7 @@ class Router {
         }
         
         const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        // Calculate offset: if 1st is Saturday (6), offset is 0; if Sunday (0), offset is 1, etc.
-        const adjustedFirstDay = firstDay === 6 ? 0 : firstDay + 1;
+        const adjustedFirstDay = (firstDay + 1) % 7;
         
         let html = '<table style="width:100%;border-collapse:collapse;">';
         html += '<thead><tr style="background:#CC0000;color:white;">';
