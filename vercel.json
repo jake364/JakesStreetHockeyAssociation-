@@ -2,7 +2,6 @@
   "version": 2,
   "rewrites": [
     { "source": "/api/menu", "destination": "/api/menu.js" },
-    { "source": "/api/schedule.json", "destination": "/api/schedule.json" },
     { "source": "/api/schedule", "destination": "/api/schedule.js" },
     { "source": "/api/photos", "destination": "/api/photos.js" },
     { "source": "/api/stats", "destination": "/api/stats.js" },
