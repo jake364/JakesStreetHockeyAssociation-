@@ -1540,6 +1540,7 @@ class Router {
           eventsHtml += `
             <div style="background:#f5f5f5;padding:1.5rem;border-radius:4px;margin-bottom:1rem;border-left:4px solid #666;">
               <h3 style="color:#666;margin:0 0 0.5rem 0;font-size:1.3rem;">⚡ PRACTICE</h3>
+              <p style="margin:0.5rem 0;font-size:1.1rem;"><strong>${event.team || 'Team'}</strong></p>
               <p style="margin:0.5rem 0;color:#666;font-size:1rem;">🕐 ${event.time}</p>
             </div>
           `;
