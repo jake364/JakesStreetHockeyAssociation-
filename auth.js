@@ -5,7 +5,7 @@ class AuthManager {
     this.currentUser = this.loadSession();
     this.adminCredentials = {
       username: 'admin',
-      password: 'jsha2025'
+      password: 'JSHA2025'
     };
     this.init();
   }

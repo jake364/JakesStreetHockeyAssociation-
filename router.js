@@ -1151,7 +1151,7 @@ class Router {
           }
         });
         
-        // Add practices from practice slots
+        // Add practices from practice slots (only on weekdays without games)
         for (let day = 1; day <= daysInMonth; day++) {
           const date = new Date(currentYear, currentMonth, day);
           const dayOfWeek = date.getDay();
@@ -1159,14 +1159,17 @@ class Router {
           
           const dayName = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][dayOfWeek];
           
-          // Check if team has practice on this weekday
-          if (this.scheduleData.practiceSlots[dayName]) {
-            this.scheduleData.practiceSlots[dayName].forEach(slot => {
-              if (slot.team === teamFullName) {
-                if (!schedule[dateStr]) schedule[dateStr] = [];
-                schedule[dateStr].push({ type: 'practice', time: slot.time });
-              }
-            });
+          // Only add practice if it's a weekday (Mon-Fri) and no game scheduled
+          if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+            const hasGame = schedule[dateStr] && schedule[dateStr].some(e => e.type === 'game');
+            if (!hasGame && this.scheduleData.practiceSlots[dayName]) {
+              this.scheduleData.practiceSlots[dayName].forEach(slot => {
+                if (slot.team === teamFullName) {
+                  if (!schedule[dateStr]) schedule[dateStr] = [];
+                  schedule[dateStr].push({ type: 'practice', time: slot.time });
+                }
+              });
+            }
           }
         }
         
