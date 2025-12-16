@@ -449,7 +449,7 @@ class Router {
                 
                 <!-- Goals Section -->
                 <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid #eee;">
-                  <h3 style="color: #CC0000; margin-bottom: 1rem;">⚽ Goals Scored</h3>
+                  <h3 style="color: #CC0000; margin-bottom: 1rem;">🏒 Goals Scored</h3>
                   <div id="goals-container" style="margin-bottom: 1rem;">
                     <!-- Goals will be added dynamically -->
                   </div>
@@ -815,6 +815,7 @@ class Router {
     const template = document.getElementById('team-thunder-page');
     const content = template.content.cloneNode(true);
     this.render(content);
+    setTimeout(() => this.populateTeamThisWeek('Thunder Strikers', 'thunder-this-week'), 100);
   }
   
   renderTeamIcePage() {
@@ -954,6 +955,7 @@ class Router {
       <div class="page-content">
         <div class="container">
           <div class="mt-3 mb-3">
+            <a href="/?page=team-${teamName}" style="display:inline-block;margin-bottom:1rem;padding:0.5rem 1rem;background:#CC0000;color:white;text-decoration:none;border-radius:4px;">← Back to ${team.name} Home</a>
             <h1 class="text-center">${team.name} - Team Statistics</h1>
             
             ${thisWeekSection}
@@ -1109,6 +1111,57 @@ class Router {
     this.render(content);
     
     setTimeout(() => this.setupTeamCalendar(teamName), 100);
+  }
+  
+  async populateTeamThisWeek(teamName, elementId) {
+    await this.loadScheduleData();
+    const container = document.getElementById(elementId);
+    if (!container) return;
+    
+    // Get this week's games and practices
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay()); // Sunday
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Saturday
+    
+    const thisWeekGames = this.scheduleData.games.filter(game => {
+      const gameDate = new Date(game.date);
+      return (game.home === teamName || game.away === teamName) &&
+             gameDate >= startOfWeek && gameDate <= endOfWeek;
+    });
+    
+    // Get practice schedule for this team
+    const practiceSlots = [];
+    if (this.scheduleData.practiceSlots) {
+      Object.entries(this.scheduleData.practiceSlots).forEach(([day, slots]) => {
+        slots.forEach(slot => {
+          if (slot.team === teamName) {
+            const dayName = day.charAt(0).toUpperCase() + day.slice(1);
+            practiceSlots.push({ day: dayName, time: slot.time });
+          }
+        });
+      });
+    }
+    
+    let content = '<div style="background:#f5f5f5;padding:1.5rem;border-radius:8px;border-left:4px solid #CC0000;"><h3 style="color:#CC0000;margin-bottom:1rem;">This Week</h3>';
+    
+    if (thisWeekGames.length > 0) {
+      thisWeekGames.forEach(game => {
+        const gameDate = new Date(game.date);
+        const dayName = gameDate.toLocaleDateString('en-US', { weekday: 'long' });
+        const isHome = game.home === teamName;
+        const opponent = isHome ? game.away : game.home;
+        content += `<p style="margin-bottom:0.5rem;"><strong>${dayName}:</strong> Game ${isHome ? 'vs' : '@'} ${opponent} ${game.time}</p>`;
+      });
+    }
+    
+    practiceSlots.forEach(slot => {
+      content += `<p style="margin-bottom:0.5rem;"><strong>${slot.day}:</strong> Practice ${slot.time}</p>`;
+    });
+    
+    content += '</div>';
+    container.innerHTML = content;
   }
   
   setupTeamCalendar(teamName) {
