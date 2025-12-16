@@ -92,7 +92,7 @@ class Router {
   async loadScheduleData() {
     if (!this.scheduleData) {
       try {
-        const response = await fetch('/api/schedule.json');
+        const response = await fetch('/api/schedule');
         this.scheduleData = await response.json();
       } catch (error) {
         console.error('Failed to load schedule data:', error);
