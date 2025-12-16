@@ -72,10 +72,13 @@ class AuthManager {
     }
     
     if (this.isLoggedIn()) {
+      const adminCheck = this.isAdmin();
+      console.log('User logged in:', this.currentUser.username, 'Is Admin:', adminCheck);
+      
       userDisplay.innerHTML = `
         <span style="font-weight: 600; color: #CC0000;">Hi, ${this.currentUser.username}</span>
-        ${this.isAdmin() ? '<span style="font-size: 0.75rem; background: #800000; color: white; padding: 0.25rem 0.5rem; border-radius: 3px;">ADMIN</span>' : ''}
-        ${this.isAdmin() ? '<a href="/?page=admin" style="padding: 0.25rem 0.75rem; background: #800000; color: white; border: none; border-radius: 4px; text-decoration: none; font-size: 0.85rem;">Admin Panel</a>' : ''}
+        ${adminCheck ? '<span style="font-size: 0.75rem; background: #800000; color: white; padding: 0.25rem 0.5rem; border-radius: 3px;">ADMIN</span>' : ''}
+        ${adminCheck ? '<a href="/?page=admin" style="padding: 0.25rem 0.75rem; background: #800000; color: white; border: none; border-radius: 4px; text-decoration: none; font-size: 0.85rem; display: inline-block;">Admin Panel</a>' : ''}
         <button onclick="authManager.logout()" style="padding: 0.25rem 0.75rem; background: #CC0000; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Logout</button>
       `;
     } else {
