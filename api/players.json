@@ -1,0 +1,188 @@
+{
+  "teams": [
+    {
+      "id": "thunder",
+      "name": "Thunder Strikers",
+      "record": { "wins": 12, "losses": 3 },
+      "goalie": {
+        "name": "Alex Thompson",
+        "games": 15,
+        "goalsAgainst": 38
+      },
+      "players": [
+        { "name": "Jake Martinez", "number": 7, "position": "Forward", "goals": 18, "assists": 15, "points": 33, "games": 15 },
+        { "name": "Ryan Cooper", "number": 12, "position": "Forward", "goals": 14, "assists": 12, "points": 26, "games": 15 },
+        { "name": "Marcus Davis", "number": 21, "position": "Forward", "goals": 12, "assists": 10, "points": 22, "games": 14 },
+        { "name": "Tyler Brooks", "number": 9, "position": "Forward", "goals": 10, "assists": 13, "points": 23, "games": 15 },
+        { "name": "Brandon Lee", "number": 15, "position": "Defense", "goals": 6, "assists": 11, "points": 17, "games": 15 },
+        { "name": "Chris Wilson", "number": 4, "position": "Defense", "goals": 4, "assists": 9, "points": 13, "games": 14 },
+        { "name": "Jordan Taylor", "number": 18, "position": "Defense", "goals": 3, "assists": 8, "points": 11, "games": 15 },
+        { "name": "Austin Moore", "number": 22, "position": "Forward", "goals": 8, "assists": 7, "points": 15, "games": 13 },
+        { "name": "Kyle Anderson", "number": 11, "position": "Forward", "goals": 7, "assists": 6, "points": 13, "games": 14 },
+        { "name": "Derek White", "number": 19, "position": "Defense", "goals": 2, "assists": 5, "points": 7, "games": 12 },
+        { "name": "Sean Harris", "number": 25, "position": "Forward", "goals": 4, "assists": 4, "points": 8, "games": 11 }
+      ]
+    },
+    {
+      "id": "ice",
+      "name": "Ice Warriors",
+      "record": { "wins": 10, "losses": 5 },
+      "goalie": {
+        "name": "Jordan Lee",
+        "games": 15,
+        "goalsAgainst": 42
+      },
+      "players": [
+        { "name": "Sarah Johnson", "number": 8, "position": "Forward", "goals": 16, "assists": 14, "points": 30, "games": 15 },
+        { "name": "Mike Stevens", "number": 13, "position": "Forward", "goals": 13, "assists": 11, "points": 24, "games": 14 },
+        { "name": "Tom Williams", "number": 20, "position": "Forward", "goals": 11, "assists": 10, "points": 21, "games": 15 },
+        { "name": "Nick Roberts", "number": 17, "position": "Defense", "goals": 5, "assists": 12, "points": 17, "games": 15 },
+        { "name": "Dan Clark", "number": 6, "position": "Defense", "goals": 4, "assists": 10, "points": 14, "games": 14 },
+        { "name": "Paul Martinez", "number": 24, "position": "Forward", "goals": 9, "assists": 8, "points": 17, "games": 15 },
+        { "name": "Greg Thomas", "number": 10, "position": "Forward", "goals": 7, "assists": 9, "points": 16, "games": 13 },
+        { "name": "Tim Jackson", "number": 5, "position": "Defense", "goals": 3, "assists": 7, "points": 10, "games": 15 },
+        { "name": "Rob Miller", "number": 14, "position": "Forward", "goals": 6, "assists": 5, "points": 11, "games": 12 },
+        { "name": "Adam Scott", "number": 23, "position": "Defense", "goals": 2, "assists": 6, "points": 8, "games": 14 },
+        { "name": "Ben Wright", "number": 16, "position": "Forward", "goals": 5, "assists": 4, "points": 9, "games": 11 }
+      ]
+    },
+    {
+      "id": "kings",
+      "name": "Street Kings",
+      "record": { "wins": 9, "losses": 6 },
+      "goalie": {
+        "name": "Chris Martinez",
+        "games": 15,
+        "goalsAgainst": 47
+      },
+      "players": [
+        { "name": "Mike Chen", "number": 3, "position": "Forward", "goals": 14, "assists": 13, "points": 27, "games": 15 },
+        { "name": "Carlos Rodriguez", "number": 27, "position": "Forward", "goals": 12, "assists": 10, "points": 22, "games": 14 },
+        { "name": "James Brown", "number": 2, "position": "Defense", "goals": 4, "assists": 11, "points": 15, "games": 15 },
+        { "name": "Kevin Walsh", "number": 9, "position": "Forward", "goals": 10, "assists": 9, "points": 19, "games": 15 },
+        { "name": "Eric Peterson", "number": 11, "position": "Forward", "goals": 8, "assists": 8, "points": 16, "games": 13 },
+        { "name": "Dave Nelson", "number": 15, "position": "Defense", "goals": 3, "assists": 9, "points": 12, "games": 14 },
+        { "name": "Frank Garcia", "number": 18, "position": "Forward", "goals": 7, "assists": 7, "points": 14, "games": 15 },
+        { "name": "Sam Turner", "number": 22, "position": "Defense", "goals": 2, "assists": 8, "points": 10, "games": 15 },
+        { "name": "Pete Adams", "number": 7, "position": "Forward", "goals": 6, "assists": 6, "points": 12, "games": 12 },
+        { "name": "Larry King", "number": 26, "position": "Defense", "goals": 1, "assists": 5, "points": 6, "games": 13 },
+        { "name": "Joe Foster", "number": 19, "position": "Forward", "goals": 5, "assists": 4, "points": 9, "games": 11 }
+      ]
+    },
+    {
+      "id": "masters",
+      "name": "Puck Masters",
+      "record": { "wins": 8, "losses": 7 },
+      "goalie": {
+        "name": "Tyler Ross",
+        "games": 15,
+        "goalsAgainst": 51
+      },
+      "players": [
+        { "name": "David Lee", "number": 10, "position": "Forward", "goals": 13, "assists": 11, "points": 24, "games": 15 },
+        { "name": "Matt Green", "number": 21, "position": "Forward", "goals": 11, "assists": 9, "points": 20, "games": 14 },
+        { "name": "Josh Baker", "number": 5, "position": "Defense", "goals": 3, "assists": 10, "points": 13, "games": 15 },
+        { "name": "Aaron Hill", "number": 14, "position": "Forward", "goals": 9, "assists": 8, "points": 17, "games": 15 },
+        { "name": "Brad Young", "number": 8, "position": "Forward", "goals": 7, "assists": 7, "points": 14, "games": 13 },
+        { "name": "Randy Phillips", "number": 17, "position": "Defense", "goals": 2, "assists": 9, "points": 11, "games": 14 },
+        { "name": "Tony Carter", "number": 12, "position": "Forward", "goals": 6, "assists": 6, "points": 12, "games": 15 },
+        { "name": "Steve Hall", "number": 4, "position": "Defense", "goals": 1, "assists": 7, "points": 8, "games": 15 },
+        { "name": "Will Parker", "number": 23, "position": "Forward", "goals": 5, "assists": 5, "points": 10, "games": 12 },
+        { "name": "Luke Evans", "number": 25, "position": "Defense", "goals": 1, "assists": 4, "points": 5, "games": 13 },
+        { "name": "Carl Reed", "number": 20, "position": "Forward", "goals": 4, "assists": 3, "points": 7, "games": 11 }
+      ]
+    },
+    {
+      "id": "rangers",
+      "name": "Rangers",
+      "record": { "wins": 7, "losses": 8 },
+      "goalie": {
+        "name": "Mark Sullivan",
+        "games": 15,
+        "goalsAgainst": 54
+      },
+      "players": [
+        { "name": "Patrick Kelly", "number": 9, "position": "Forward", "goals": 12, "assists": 10, "points": 22, "games": 15 },
+        { "name": "Connor Murphy", "number": 16, "position": "Forward", "goals": 10, "assists": 8, "points": 18, "games": 14 },
+        { "name": "Shane Collins", "number": 6, "position": "Defense", "goals": 2, "assists": 9, "points": 11, "games": 15 },
+        { "name": "Brian Ward", "number": 11, "position": "Forward", "goals": 8, "assists": 7, "points": 15, "games": 15 },
+        { "name": "Jack Ryan", "number": 19, "position": "Forward", "goals": 7, "assists": 6, "points": 13, "games": 13 },
+        { "name": "Noah Bennett", "number": 3, "position": "Defense", "goals": 1, "assists": 8, "points": 9, "games": 14 },
+        { "name": "Liam Price", "number": 13, "position": "Forward", "goals": 6, "assists": 5, "points": 11, "games": 15 },
+        { "name": "Owen Long", "number": 24, "position": "Defense", "goals": 1, "assists": 6, "points": 7, "games": 15 },
+        { "name": "Ethan Hayes", "number": 7, "position": "Forward", "goals": 5, "assists": 4, "points": 9, "games": 12 },
+        { "name": "Mason Cruz", "number": 22, "position": "Defense", "goals": 0, "assists": 5, "points": 5, "games": 13 },
+        { "name": "Lucas Torres", "number": 15, "position": "Forward", "goals": 4, "assists": 3, "points": 7, "games": 11 }
+      ]
+    },
+    {
+      "id": "devils",
+      "name": "Devils",
+      "record": { "wins": 6, "losses": 9 },
+      "goalie": {
+        "name": "Danny Rivera",
+        "games": 15,
+        "goalsAgainst": 58
+      },
+      "players": [
+        { "name": "Tony Rodriguez", "number": 12, "position": "Forward", "goals": 11, "assists": 9, "points": 20, "games": 15 },
+        { "name": "Marco Diaz", "number": 8, "position": "Forward", "goals": 9, "assists": 7, "points": 16, "games": 14 },
+        { "name": "Victor Santos", "number": 4, "position": "Defense", "goals": 1, "assists": 8, "points": 9, "games": 15 },
+        { "name": "Diego Morales", "number": 10, "position": "Forward", "goals": 7, "assists": 6, "points": 13, "games": 15 },
+        { "name": "Juan Flores", "number": 17, "position": "Forward", "goals": 6, "assists": 5, "points": 11, "games": 13 },
+        { "name": "Pablo Ramos", "number": 5, "position": "Defense", "goals": 0, "assists": 7, "points": 7, "games": 14 },
+        { "name": "Hector Gomez", "number": 21, "position": "Forward", "goals": 5, "assists": 4, "points": 9, "games": 15 },
+        { "name": "Luis Mendez", "number": 14, "position": "Defense", "goals": 1, "assists": 5, "points": 6, "games": 15 },
+        { "name": "Carlos Reyes", "number": 23, "position": "Forward", "goals": 4, "assists": 3, "points": 7, "games": 12 },
+        { "name": "Miguel Castro", "number": 18, "position": "Defense", "goals": 0, "assists": 4, "points": 4, "games": 13 },
+        { "name": "Angel Herrera", "number": 9, "position": "Forward", "goals": 3, "assists": 2, "points": 5, "games": 11 }
+      ]
+    },
+    {
+      "id": "hawks",
+      "name": "Hawks",
+      "record": { "wins": 5, "losses": 10 },
+      "goalie": {
+        "name": "Ryan Campbell",
+        "games": 15,
+        "goalsAgainst": 62
+      },
+      "players": [
+        { "name": "Steve Miller", "number": 7, "position": "Forward", "goals": 10, "assists": 8, "points": 18, "games": 15 },
+        { "name": "Jake Morrison", "number": 15, "position": "Forward", "goals": 8, "assists": 6, "points": 14, "games": 14 },
+        { "name": "Dylan Hughes", "number": 3, "position": "Defense", "goals": 1, "assists": 7, "points": 8, "games": 15 },
+        { "name": "Cole Patterson", "number": 11, "position": "Forward", "goals": 6, "assists": 5, "points": 11, "games": 15 },
+        { "name": "Hunter Gray", "number": 20, "position": "Forward", "goals": 5, "assists": 4, "points": 9, "games": 13 },
+        { "name": "Wyatt Jenkins", "number": 6, "position": "Defense", "goals": 0, "assists": 6, "points": 6, "games": 14 },
+        { "name": "Austin Barnes", "number": 19, "position": "Forward", "goals": 4, "assists": 3, "points": 7, "games": 15 },
+        { "name": "Blake Perry", "number": 2, "position": "Defense", "goals": 0, "assists": 5, "points": 5, "games": 15 },
+        { "name": "Chase Powell", "number": 24, "position": "Forward", "goals": 3, "assists": 2, "points": 5, "games": 12 },
+        { "name": "Carter Russell", "number": 16, "position": "Defense", "goals": 0, "assists": 3, "points": 3, "games": 13 },
+        { "name": "Brock Coleman", "number": 13, "position": "Forward", "goals": 2, "assists": 1, "points": 3, "games": 11 }
+      ]
+    },
+    {
+      "id": "blades",
+      "name": "Blades",
+      "record": { "wins": 3, "losses": 12 },
+      "goalie": {
+        "name": "Scott Henderson",
+        "games": 15,
+        "goalsAgainst": 68
+      },
+      "players": [
+        { "name": "Brian Wilson", "number": 10, "position": "Forward", "goals": 9, "assists": 7, "points": 16, "games": 15 },
+        { "name": "Kevin Bell", "number": 14, "position": "Forward", "goals": 7, "assists": 5, "points": 12, "games": 14 },
+        { "name": "Trevor Cox", "number": 5, "position": "Defense", "goals": 0, "assists": 6, "points": 6, "games": 15 },
+        { "name": "Garrett Howard", "number": 8, "position": "Forward", "goals": 5, "assists": 4, "points": 9, "games": 15 },
+        { "name": "Evan Ward", "number": 21, "position": "Forward", "goals": 4, "assists": 3, "points": 7, "games": 13 },
+        { "name": "Cody Brooks", "number": 12, "position": "Defense", "goals": 0, "assists": 5, "points": 5, "games": 14 },
+        { "name": "Travis Wood", "number": 17, "position": "Forward", "goals": 3, "assists": 2, "points": 5, "games": 15 },
+        { "name": "Logan James", "number": 4, "position": "Defense", "goals": 0, "assists": 4, "points": 4, "games": 15 },
+        { "name": "Tyler Morgan", "number": 22, "position": "Forward", "goals": 2, "assists": 1, "points": 3, "games": 12 },
+        { "name": "Justin Cooper", "number": 25, "position": "Defense", "goals": 0, "assists": 2, "points": 2, "games": 13 },
+        { "name": "Derek Fisher", "number": 9, "position": "Forward", "goals": 1, "assists": 1, "points": 2, "games": 11 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jake's Street Hockey Association - JSHA</title>
+  <meta name="description" content="Official website for Jake's Street Hockey Association - games, stats, photos, and more">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/auth.js" defer></script>
+  <script src="/components.js" defer></script>
+  <script src="/router.js" defer></script>
+</head>
+<body>
+  <!-- Sponsor Banner (Always Visible) -->
+  <div class="sponsor-banner">
+    <sh-sponser name="SportCo"></sh-sponser>
+    <sh-sponser name="HockeyGear+"></sh-sponser>
+    <sh-sponser name="Urban Athletics"></sh-sponser>
+    <sh-sponser name="Street Sports Inc"></sh-sponser>
+  </div>
+  
+  <!-- Title Bar (Red background) -->
+  <sh-title text="Jake's Street Hockey Association"></sh-title>
+
+  <!-- Page Navigation -->
+  <nav class="page-navigation">
+    <sh-pagebutton text="Home" href="/?page=home"></sh-pagebutton>
+    <sh-pagebutton text="About" href="/?page=about" dropdown="true" 
+      dropdown-items="Our Story,/?page=story|Staff,/?page=staff|Contact,/?page=contact"></sh-pagebutton>
+    <sh-pagebutton text="Teams" href="/?page=teams"></sh-pagebutton>
+    <sh-pagebutton text="Schedule" href="/?page=schedule"></sh-pagebutton>
+    <sh-pagebutton text="History" href="/?page=history-2025" dropdown="true" 
+      dropdown-items="2025,/?page=history-2025|2024,/?page=history-2024|2023,/?page=history-2023|2022,/?page=history-2022"></sh-pagebutton>
+    <sh-pagebutton text="Stats" href="/?page=stats"></sh-pagebutton>
+    <sh-register text="Register" href="/?page=register" class="nav-register-btn"></sh-register>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main id="app">
+    <div class="loading">Loading...</div>
+  </main>
+
+  <!-- Page Templates -->
+  <template id="home-page">
+    <div class="page-content">
+      <div class="container">
+        <section class="mb-3">
+          <sh-paragraphcard 
+            title="Welcome to Jake's Street Hockey Association"
+            content="The premier street hockey league bringing competitive and recreational hockey to the streets. Join us for exciting games, community events, and the passion of street hockey!">
+          </sh-paragraphcard>
+          
+          <div class="text-center mt-2">
+            <sh-register text="Register for the Season" href="/?page=register"></sh-register>
+          </div>
+        </section>
+
+        <section class="mb-3">
+          <h2 class="text-center">Upcoming Games</h2>
+          <sh-cardgrid type="game" api="/api/schedule"></sh-cardgrid>
+        </section>
+
+        <section class="section-secondary">
+          <div class="container">
+            <h2 class="text-center">Why Join JSHA?</h2>
+            <div class="content-row">
+              <sh-paragraphcard 
+                title="Competitive Play"
+                content="Experience high-energy games with skilled players from around the region. Our leagues offer both recreational and competitive divisions to match your skill level.">
+              </sh-paragraphcard>
+              <sh-sideinformation 
+                title="Quick Facts"
+                content="<ul style='list-style:none;padding:0;'><li>✓ 12 Teams</li><li>✓ 50+ Players</li><li>✓ Year-Round</li><li>✓ All Ages</li></ul>">
+              </sh-sideinformation>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-3">
+          <h2 class="text-center">Frequently Asked Questions</h2>
+          <sh-paragraphcard 
+            title="How do I register?"
+            content="Click the Register button above to fill out our registration form. You'll need to provide your contact information and select your skill level.">
+          </sh-paragraphcard>
+          <sh-paragraphcard 
+            title="What equipment do I need?"
+            content="Players need a hockey stick, inline skates or running shoes, protective gear (helmet, gloves, shin guards), and a positive attitude!">
+          </sh-paragraphcard>
+          <sh-paragraphcard 
+            title="When are games played?"
+            content="Games are typically played on weekday evenings and weekend mornings. Check the schedule page for specific dates and times.">
+          </sh-paragraphcard>
+        </section>
+
+        <section class="mb-3">
+          <h2 class="text-center">If You Have Any Questions</h2>
+          <sh-paragraphcard 
+            title="Contact Us"
+            content="<div style='text-align:center;font-size:1.1rem;line-height:2;'><strong>Email:</strong> info@jsha.com<br><strong>Phone:</strong> (555) 123-4567</div>">
+          </sh-paragraphcard>
+        </section>
+      </div>
+    </div>
+  </template>
+
+  <template id="schedule-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Complete Schedule</h1>
+          <sh-paragraphcard 
+            title="2025-2026 Season Calendar"
+            content="Browse games month by month. Click the arrows to navigate between months.">
+          </sh-paragraphcard>
+          
+          <div id="calendar-container" style="max-width:900px;margin:2rem auto;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+              <button id="prevMonth" style="padding:0.5rem 1rem;background:#CC0000;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:600;">← Previous</button>
+              <h2 id="currentMonth" style="margin:0;color:#CC0000;">December 2025</h2>
+              <button id="nextMonth" style="padding:0.5rem 1rem;background:#CC0000;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Next →</button>
+            </div>
+            
+            <div id="calendarView" style="background:white;padding:1.5rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+              <!-- Calendar will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="photos-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="content-with-sidebar mt-3">
+          <sh-onscreenpage items="Home,/?page=home|Photos,/?page=photos|Videos,/?page=videos|Highlights,/?page=highlights"></sh-onscreenpage>
+          
+          <div class="main-content">
+            <h1>Photo Gallery</h1>
+            <sh-paragraphcard 
+              title="Capturing the Action"
+              content="Relive the best moments from JSHA games. From game-winning goals to incredible saves, our photo gallery showcases the excitement of street hockey.">
+            </sh-paragraphcard>
+            
+            <sh-cardgrid type="photo" api="/api/photos"></sh-cardgrid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="stats-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="content-with-sidebar mt-3">
+          <sh-onscreenpage items="Standings,/?page=stats|Player Stats,/?page=stats-players|Goalie Stats,/?page=stats-goalies"></sh-onscreenpage>
+          
+          <div class="main-content">
+            <h1>Team Standings</h1>
+            
+            <div id="stats-content">
+              <!-- Will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="register-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Player Registration</h1>
+          
+          <sh-paragraphcard 
+            title="Join JSHA Today!"
+            content="Ready to hit the streets? Register for the upcoming season and become part of our growing hockey community. Registration includes jersey, insurance, and access to all league games.">
+          </sh-paragraphcard>
+          
+          <div class="content-row mt-3">
+            <div>
+              <sh-paragraphcard 
+                title="Registration Form"
+                content="<form id='registrationForm' style='max-width:600px;'>
+                  <input type='text' id='regName' placeholder='Full Name *' required style='width:100%;padding:0.75rem;margin-bottom:1rem;border:2px solid #ccc;border-radius:4px;'>
+                  <input type='email' id='regEmail' placeholder='Email *' required style='width:100%;padding:0.75rem;margin-bottom:1rem;border:2px solid #ccc;border-radius:4px;'>
+                  <input type='tel' id='regPhone' placeholder='Phone Number *' required style='width:100%;padding:0.75rem;margin-bottom:1rem;border:2px solid #ccc;border-radius:4px;'>
+                  <select id='regSkill' style='width:100%;padding:0.75rem;margin-bottom:1rem;border:2px solid #ccc;border-radius:4px;' required>
+                    <option value=''>Select Skill Level *</option>
+                    <option value='beginner'>Beginner</option>
+                    <option value='intermediate'>Intermediate</option>
+                    <option value='advanced'>Advanced</option>
+                  </select>
+                  <sh-register text='Complete Registration' href='#' onclick='return false;' id='submitRegBtn'></sh-register>
+                </form>">
+              </sh-paragraphcard>
+            </div>
+            
+            <sh-sideinformation 
+              title="Registration Info"
+              content="<strong>Season Fees:</strong><br>$150 per player<br><br><strong>Includes:</strong><br>- League Jersey<br>- Insurance<br>- 15 Games<br>- Playoffs<br><br><strong>Season Dates:</strong><br>Jan 2026 - May 2026">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="story-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Our Story</h1>
+          <sh-paragraphcard 
+            title="The Beginning"
+            content="Jake's Street Hockey Association was founded in 2018 by a group of passionate street hockey enthusiasts who wanted to create a community where players of all ages and skill levels could come together to enjoy the sport they love.">
+          </sh-paragraphcard>
+          <sh-paragraphcard 
+            title="Growth and Success"
+            content="What started as a small group of friends playing on local streets has grown into a thriving association with over 50 active players, 12 competitive teams, and 3 championship titles. Our commitment to fostering sportsmanship, skill development, and community engagement has made JSHA the premier street hockey league in the region.">
+          </sh-paragraphcard>
+          <sh-paragraphcard 
+            title="Our Mission"
+            content="We are dedicated to providing a safe, fun, and competitive environment for street hockey players. Whether you're a beginner learning the basics or an experienced player looking for high-level competition, JSHA offers programs and leagues tailored to your needs.">
+          </sh-paragraphcard>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="staff-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Our Staff</h1>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:2rem;">
+            <sh-paragraphcard 
+              title="Jake Martinez - President"
+              content="Jake founded JSHA in 2018 and continues to lead the organization with passion and dedication. A former collegiate player, Jake brings years of hockey experience and a vision for growing the sport at the grassroots level.">
+            </sh-paragraphcard>
+            <sh-paragraphcard 
+              title="Sarah Johnson - League Director"
+              content="Sarah oversees all league operations, from scheduling to player registration. Her organizational skills and attention to detail ensure smooth operations throughout the season.">
+            </sh-paragraphcard>
+            <sh-paragraphcard 
+              title="Mike Chen - Head Referee"
+              content="Mike leads our officiating team and ensures fair play across all games. With 10 years of refereeing experience, he maintains the highest standards of sportsmanship.">
+            </sh-paragraphcard>
+            <sh-paragraphcard 
+              title="Emily Davis - Communications Director"
+              content="Emily manages all communications, social media, and community outreach. She keeps players and families informed about league news, events, and important updates.">
+            </sh-paragraphcard>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="contact-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Contact Us</h1>
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Get in Touch"
+                content="Have questions about JSHA? Want to learn more about our programs or upcoming events? We'd love to hear from you!">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Contact Information"
+                content="<strong>Email:</strong> info@jsha.com<br>
+                        <strong>Phone:</strong> (555) 123-4567<br>
+                        <strong>Address:</strong> 123 Main Street, State College, PA 16801<br><br>
+                        <strong>Office Hours:</strong><br>
+                        Monday - Friday: 9:00 AM - 5:00 PM<br>
+                        Saturday: 10:00 AM - 2:00 PM<br>
+                        Sunday: Closed">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="Social Media"
+              content="<strong>Follow us:</strong><br><br>📸 Instagram: @jsha_hockey<br>🐦 Twitter: @JSHAHockey<br>📱 Facebook: Jake's Street Hockey<br><br>Stay updated on games, events, and league news!">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="login-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3" style="max-width: 500px; margin: 3rem auto;">
+          <h1 class="text-center">Login</h1>
+          
+          <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-top: 2rem;">
+            <form id="login-form" onsubmit="handleLogin(event)" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <div>
+                <label for="username" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000;">Username</label>
+                <input type="text" id="username" name="username" required 
+                       style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 4px; font-size: 1rem;">
+              </div>
+              
+              <div>
+                <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000;">Password</label>
+                <input type="password" id="password" name="password" required 
+                       style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 4px; font-size: 1rem;">
+              </div>
+              
+              <div id="login-error" style="display: none; padding: 0.75rem; background: #ffebee; color: #c62828; border-radius: 4px; text-align: center;"></div>
+              
+              <button type="submit" style="padding: 1rem; background: #CC0000; color: white; border: none; border-radius: 4px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                Login
+              </button>
+              
+              <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ddd;">
+                <p style="color: #666; font-size: 0.9rem;">
+                  <strong>Admin Login:</strong> admin / jsha2025<br>
+                  <strong>Regular Users:</strong> Any username/password
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="history-2025-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">2025 Championship</h1>
+          <sh-paragraphcard 
+            title="🏆 2025 Champions: Thunder Strikers"
+            content="In an intense championship game, the Thunder Strikers emerged victorious with a 5-3 win over the Lightning Blades. MVP Jake Martinez scored the game-winning goal in the final period, securing JSHA's most competitive season yet.">
+          </sh-paragraphcard>
+          <div style="text-align:center;margin-top:2rem;">
+            <img src="https://via.placeholder.com/800x500/CC0000/FFFFFF?text=Thunder+Strikers+2025+Champions" alt="2025 Champions" style="max-width:100%;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="history-2024-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">2024 Championship</h1>
+          <sh-paragraphcard 
+            title="🏆 2024 Champions: Ice Warriors"
+            content="The Ice Warriors dominated the 2024 season, finishing with a perfect playoff record. Their 6-2 championship victory showcased exceptional teamwork and skill, cementing their place in JSHA history.">
+          </sh-paragraphcard>
+          <div style="text-align:center;margin-top:2rem;">
+            <img src="https://via.placeholder.com/800x500/CC0000/FFFFFF?text=Ice+Warriors+2024+Champions" alt="2024 Champions" style="max-width:100%;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="history-2023-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">2023 Championship</h1>
+          <sh-paragraphcard 
+            title="🏆 2023 Champions: Street Kings"
+            content="The Street Kings claimed their first JSHA championship in a thrilling overtime victory. Captain Sarah Johnson's overtime goal sealed a 4-3 win, bringing glory to the team in their second season.">
+          </sh-paragraphcard>
+          <div style="text-align:center;margin-top:2rem;">
+            <img src="https://via.placeholder.com/800x500/CC0000/FFFFFF?text=Street+Kings+2023+Champions" alt="2023 Champions" style="max-width:100%;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="history-2022-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">2022 Championship</h1>
+          <sh-paragraphcard 
+            title="🏆 2022 Champions: Puck Masters"
+            content="The Puck Masters made history as JSHA's first-ever champions. Their 5-1 victory in the inaugural championship game set the standard for excellence that continues today.">
+          </sh-paragraphcard>
+          <div style="text-align:center;margin-top:2rem;">
+            <img src="https://via.placeholder.com/800x500/CC0000/FFFFFF?text=Puck+Masters+2022+Champions" alt="2022 Champions" style="max-width:100%;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Teams Landing Page -->
+  <template id="teams-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">JSHA Teams</h1>
+          <sh-paragraphcard 
+            title="Select a Team"
+            content="Click on any team below to view their roster, stats, and schedule.">
+          </sh-paragraphcard>
+          
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem;">
+            <a href="/?page=team-thunder" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Thunder Strikers</h3>
+                <p style="color:#666;">Record: 12-3</p>
+              </div>
+            </a>
+            <a href="/?page=team-ice" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Ice Warriors</h3>
+                <p style="color:#666;">Record: 10-5</p>
+              </div>
+            </a>
+            <a href="/?page=team-kings" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Street Kings</h3>
+                <p style="color:#666;">Record: 9-6</p>
+              </div>
+            </a>
+            <a href="/?page=team-masters" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Puck Masters</h3>
+                <p style="color:#666;">Record: 8-7</p>
+              </div>
+            </a>
+            <a href="/?page=team-rangers" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Rangers</h3>
+                <p style="color:#666;">Record: 7-8</p>
+              </div>
+            </a>
+            <a href="/?page=team-devils" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Devils</h3>
+                <p style="color:#666;">Record: 6-9</p>
+              </div>
+            </a>
+            <a href="/?page=team-hawks" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Hawks</h3>
+                <p style="color:#666;">Record: 5-10</p>
+              </div>
+            </a>
+            <a href="/?page=team-blades" style="text-decoration:none;">
+              <div style="background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);text-align:center;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="color:#CC0000;margin-bottom:0.5rem;">Blades</h3>
+                <p style="color:#666;">Record: 3-12</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Team Pages -->
+  <template id="team-thunder-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Thunder Strikers</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-thunder|Team Stats,/?page=team-thunder-stats|Player Stats,/?page=team-thunder-players|Schedule,/?page=team-thunder-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> Jake Martinez<br><strong>Assistant Coach:</strong> Mike Chen">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 12<br><strong>Losses:</strong> 3<br><strong>Win %:</strong> 80.0%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Monday:</strong> Practice 7:00 PM<br><strong>Wednesday:</strong> Game vs Ice Warriors 8:00 PM<br><strong>Friday:</strong> Practice 6:00 PM<br><strong>Sunday:</strong> Game vs Street Kings 2:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="team-ice-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Ice Warriors</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-ice|Team Stats,/?page=team-ice-stats|Player Stats,/?page=team-ice-players|Schedule,/?page=team-ice-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> Sarah Johnson<br><strong>Assistant Coach:</strong> Tom Williams">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 10<br><strong>Losses:</strong> 5<br><strong>Win %:</strong> 66.7%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Tuesday:</strong> Practice 7:00 PM<br><strong>Wednesday:</strong> Game vs Thunder Strikers 8:00 PM<br><strong>Thursday:</strong> Practice 6:30 PM<br><strong>Saturday:</strong> Game vs Puck Masters 3:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="team-kings-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Street Kings</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-kings|Team Stats,/?page=team-kings-stats|Player Stats,/?page=team-kings-players|Schedule,/?page=team-kings-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> Emily Davis<br><strong>Assistant Coach:</strong> Chris Brown">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 9<br><strong>Losses:</strong> 6<br><strong>Win %:</strong> 60.0%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Monday:</strong> Practice 6:00 PM<br><strong>Wednesday:</strong> Practice 7:30 PM<br><strong>Friday:</strong> Game vs Puck Masters 7:00 PM<br><strong>Sunday:</strong> Game vs Thunder Strikers 2:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="team-masters-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Puck Masters</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-masters|Team Stats,/?page=team-masters-stats|Player Stats,/?page=team-masters-players|Schedule,/?page=team-masters-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> David Lee<br><strong>Assistant Coach:</strong> Rachel Green">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 8<br><strong>Losses:</strong> 7<br><strong>Win %:</strong> 53.3%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Tuesday:</strong> Practice 6:30 PM<br><strong>Thursday:</strong> Game vs Street Kings 7:00 PM<br><strong>Friday:</strong> Practice 5:00 PM<br><strong>Saturday:</strong> Game vs Ice Warriors 3:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="team-rangers-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Rangers</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-rangers|Team Stats,/?page=team-rangers-stats|Player Stats,/?page=team-rangers-players|Schedule,/?page=team-rangers-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> Mark Thompson<br><strong>Assistant Coach:</strong> Lisa Anderson">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 7<br><strong>Losses:</strong> 8<br><strong>Win %:</strong> 46.7%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Monday:</strong> Practice 6:00 PM<br><strong>Wednesday:</strong> Practice 7:00 PM<br><strong>Saturday:</strong> Game vs Devils 1:00 PM<br><strong>Sunday:</strong> Game vs Hawks 3:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="team-devils-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Devils</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-devils|Team Stats,/?page=team-devils-stats|Player Stats,/?page=team-devils-players|Schedule,/?page=team-devils-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> Tony Rodriguez<br><strong>Assistant Coach:</strong> Kevin Walsh">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 6<br><strong>Losses:</strong> 9<br><strong>Win %:</strong> 40.0%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Tuesday:</strong> Practice 5:30 PM<br><strong>Thursday:</strong> Practice 6:00 PM<br><strong>Saturday:</strong> Game vs Rangers 1:00 PM<br><strong>Sunday:</strong> Game vs Blades 2:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="team-hawks-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Hawks</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-hawks|Team Stats,/?page=team-hawks-stats|Player Stats,/?page=team-hawks-players|Schedule,/?page=team-hawks-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> Steve Miller<br><strong>Assistant Coach:</strong> Diana Ross">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 5<br><strong>Losses:</strong> 10<br><strong>Win %:</strong> 33.3%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Monday:</strong> Practice 7:00 PM<br><strong>Wednesday:</strong> Practice 5:30 PM<br><strong>Saturday:</strong> Game vs Blades 4:00 PM<br><strong>Sunday:</strong> Game vs Rangers 3:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="team-blades-page">
+    <div class="page-content">
+      <div class="container">
+        <div class="mt-3 mb-3">
+          <h1 class="text-center">Blades</h1>
+          
+          <sh-onscreenpage items="Team Home,/?page=team-blades|Team Stats,/?page=team-blades-stats|Player Stats,/?page=team-blades-players|Schedule,/?page=team-blades-schedule"></sh-onscreenpage>
+          
+          <div class="content-row">
+            <div>
+              <sh-paragraphcard 
+                title="Coaching Staff"
+                content="<strong>Head Coach:</strong> Brian Wilson<br><strong>Assistant Coach:</strong> Kelly Martin">
+              </sh-paragraphcard>
+              <sh-paragraphcard 
+                title="Season Record"
+                content="<strong>Wins:</strong> 3<br><strong>Losses:</strong> 12<br><strong>Win %:</strong> 20.0%">
+              </sh-paragraphcard>
+            </div>
+            <sh-sideinformation 
+              title="This Week"
+              content="<strong>Tuesday:</strong> Practice 6:30 PM<br><strong>Thursday:</strong> Practice 7:30 PM<br><strong>Saturday:</strong> Game vs Hawks 4:00 PM<br><strong>Sunday:</strong> Game vs Devils 2:00 PM">
+            </sh-sideinformation>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="admin-page">
+    <div class="page-content">
+      <div class="container">
+        <section class="mt-3 mb-3">
+          <h1 class="text-center">Admin Dashboard</h1>
+          <div id="admin-content" style="max-width:800px;margin:0 auto;">
+            <sh-paragraphcard 
+              title="Admin Access Required"
+              content="<div style='text-align:center;padding:2rem;'>
+                <input type='password' id='adminPassword' placeholder='Enter Admin Password' style='width:100%;max-width:400px;padding:0.75rem;border:2px solid #ccc;border-radius:4px;margin-bottom:1rem;'>
+                <br>
+                <sh-mainbutton text='Login' id='adminLoginBtn' onclick='return false;'></sh-mainbutton>
+                <p style='color:#666;margin-top:1rem;font-size:0.9rem;'>Password: jsha2025</p>
+              </div>">
+            </sh-paragraphcard>
+          </div>
+        </section>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+    // Login form handler
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('login-error');
+      
+      const result = authManager.login(username, password);
+      
+      if (result.success) {
+        window.location.href = '/?page=home';
+      } else {
+        errorDiv.textContent = result.error;
+        errorDiv.style.display = 'block';
+      }
+    }
+    
+    // Admin functions for updating stats
+    function updatePlayerStats() {
+      const goals = parseInt(document.getElementById('admin-goals').value) || 0;
+      const assists = parseInt(document.getElementById('admin-assists').value) || 0;
+      const games = parseInt(document.getElementById('admin-games').value) || 0;
+      
+      alert(`Stats updated successfully!\\nGoals: ${goals}\\nAssists: ${assists}\\nGames: ${games}\\nPoints: ${goals + assists}\\n\\nNote: This is a demo. In production, this would update the database.`);
+    }
+    
+    function addNewGame() {
+      const date = document.getElementById('game-date').value;
+      const time = document.getElementById('game-time').value;
+      const home = document.getElementById('game-home').value;
+      const away = document.getElementById('game-away').value;
+      
+      if (!date || !time || !home || !away) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      if (home === away) {
+        alert('Home and away teams must be different');
+        return;
+      }
+      
+      alert(`Game added successfully!\\nDate: ${date}\\nTime: ${time}\\n${home} vs ${away}\\n\\nNote: This is a demo. In production, this would update schedule.json`);
+      
+      // Clear form
+      document.getElementById('game-date').value = '';
+      document.getElementById('game-time').value = '';
+      document.getElementById('game-home').value = '';
+      document.getElementById('game-away').value = '';
+    }
+  </script>
+</body>
+</html>
