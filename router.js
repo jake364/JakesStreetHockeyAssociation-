@@ -199,7 +199,8 @@ class Router {
         
         // Calendar starts on Saturday (day 6)
         const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-        const adjustedFirstDay = (firstDay + 1) % 7; // Shift so Saturday is 0
+        // Calculate offset: if 1st is Saturday (6), offset is 0; if Sunday (0), offset is 1, etc.
+        const adjustedFirstDay = firstDay === 6 ? 0 : firstDay + 1;
         
         let html = '<table style="width:100%;border-collapse:collapse;">';
         html += '<thead><tr style="background:#CC0000;color:white;">';
@@ -1257,7 +1258,8 @@ class Router {
         }
         
         const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        const adjustedFirstDay = (firstDay + 1) % 7; // Shift so Saturday is 0
+        // Calculate offset: if 1st is Saturday (6), offset is 0; if Sunday (0), offset is 1, etc.
+        const adjustedFirstDay = firstDay === 6 ? 0 : firstDay + 1;
         
         let html = '<table style="width:100%;border-collapse:collapse;">';
         html += '<thead><tr style="background:#CC0000;color:white;">';
